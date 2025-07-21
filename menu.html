@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu | Food Express</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #fffaf0, #fff);
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: linear-gradient(to right, #ff6f61, #ff9472);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #ff6f61;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff9472;
+      transform: scale(1.05);
+    }
+
+    section {
+      padding: 60px 10% 40px;
+      animation: fadeInUp 0.8s ease;
+
+    }
+
+    h2 {
+      font-size: 2.2rem;
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ff6f61, #ff9472);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .toggle-btn {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      background: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      background: #ff9472;
+      transform: scale(1.05);
+    }
+
+    .items-container {
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 25px;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  font-family: 'Playfair Display', serif; 
+}
+
+.item-row:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
+}
+
+.item-row img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #fcbf49;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.item-name {
+  flex: 1;
+  padding: 0 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5;
+}
+
+.actions button {
+  margin-left: 10px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+button.like {
+  background: #ffe4e1;
+  color: #e63946;
+}
+
+button.cart {
+  background: #fff3b0;
+  color: #6a4f4b;
+}
+
+button.order {
+  background: #06d6a0;
+  color: white;
+}
+
+.actions button:hover {
+  transform: scale(1.08);
+  opacity: 0.95;
+}
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+
+    .liked {
+  background: #ffccd5 !important;
+  color: #e63946 !important;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.item-name strong {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.item-name small {
+  font-size: 0.8rem;
+  color: #555; /* optional for a slightly faded look */
+}
+
+/* Fullscreen image overlay */
+  .image-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    text-align: center;
+  }
+  
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  </style>
+</head>
+<body>
+
+  <header>Food Express - Our Menu</header>
+
+  <nav>
+    <a href ="index.html" class="home-button">🏠 Home </a> 
+    <a href="#Pizza">Pizza</a>
+    <a href="#Burger">Burger</a>
+    <a href="#Chinese">Chinese</a>
+    <a href="#Biryani">Biryani</a>
+    <a href="#Meals">Meals</a>
+    <a href="#Mocktails">Mocktails</a>
+    <a href="#Desserts">Desserts</a>
+    <a href="#Soft Drinks">Soft Drinks</a>
+    <a href="liked.html">Liked❤️</a>
+    <a href="cart.html">Cart🛒</a>
+    <a href="dashboard.html">Your Dashboard📲</a>
+
+  </nav>
+<section id="Pizza">
+  <h2>Pizza</h2>
+  <button class="toggle-btn" onclick="toggleSection('pizza-items')">🍕 View Items</button>
+
+  <div id="pizza-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/Margherita.jpeg" alt="Margherita">
+      <span class="item-name">
+        Margherita – ₹249<br>
+        <small>Classic cheese & tomato sauce pizza.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Farmhouse.jpg" alt="Farmhouse">
+      <span class="item-name">
+        Farmhouse – ₹229<br>
+        <small>Loaded with onion, capsicum, tomato & mushrooms.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Peppy Paneer.avif" alt="Peppy Paneer">
+      <span class="item-name">
+        Peppy Paneer – ₹249<br>
+        <small>Tandoori paneer, crunchy capsicum, and spicy red paprika.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/cheese burst.jpg" alt="Cheese Burst">
+      <span class="item-name">
+        Cheese Burst – ₹269<br>
+        <small>Oozing cheese from the crust with extra cheesy topping.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Veggie Supreme.avif" alt="Veggie Supreme">
+      <span class="item-name">
+        Veggie Supreme – ₹259<br>
+        <small>Corn, black olives, jalapeños, bell peppers.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/4cheese.jpg" alt="Four Cheese Pizza">
+      <span class="item-name">
+        Four Cheese Pizza – ₹299<br>
+        <small>Mozzarella, parmesan, cheddar, and blue cheese.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <section id="Burger">
+  <h2>Burger</h2>
+  <button class="toggle-btn" onclick="toggleSection('burger-items')">🍔 View Items</button>
+
+  <div id="burger-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/Classic Veg Burger.jpg" alt="Classic Veg Burger">
+      <span class="item-name">
+        Classic Veg Burger – ₹99<br>
+        <small>Crispy potato patty, lettuce, tomato, and mayo.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/paneer tikka burger.png" alt="Paneer Tikka Burger">
+      <span class="item-name">
+        Paneer Tikka Burger – ₹199<br>
+        <small>Grilled paneer with Indian spices, onion rings, and mint mayo.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/crispy corn burger.png" alt="Crispy Corn Burger">
+      <span class="item-name">
+        Crispy Corn Burger – ₹139<br>
+        <small>Corn and veggie patty with spicy mayo and lettuce.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/aloo tikki burger.png" alt="Aloo Tikki Burger">
+      <span class="item-name">
+        Aloo Tikki Burger – ₹89<br>
+        <small>North Indian-style spiced potato patty with ketchup and onion.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/cheese burger.jpg" alt="Cheesy Explosion Burger">
+      <span class="item-name">
+        Cheesy Explosion Burger – ₹199<br>
+        <small>Stuffed cheese patty + cheese slice + cheesy sauce overload!</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section id="Chinese">
+  <h2>Chinese</h2>
+  <button class="toggle-btn" onclick="toggleSection('chinese-items')">🥡 View Items</button>
+
+  <div id="chinese-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/hakka noodles.png" alt="Veg Hakka Noodles">
+      <span class="item-name">
+        Veg Hakka Noodles – ₹149<br>
+        <small>Stir-fried noodles with colorful veggies in a classic Indo-Chinese sauce.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Maggie.jpg" alt="Maggie">
+      <span class="item-name">
+        Vegetable Maggie – ₹80<br>
+        <small>Veggie Maggi loaded with crunchy capsicum, onions, carrots, and fresh coriander.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/paneer chilli.jpg" alt="Paneer Chilli Dry">
+      <span class="item-name">
+        Paneer Chilli Dry – ₹179<br>
+        <small>Crispy paneer cubes tossed with onions, capsicum, and tangy chili sauce.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/manchurian.jpg" alt="Veg Manchurian Dry">
+      <span class="item-name">
+        Veg Manchurian Dry – ₹159<br>
+        <small>Crispy veggie balls in spicy garlic-soy glaze.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/schezwan-fried-rice.jpg" alt="Schezwan Fried Rice">
+      <span class="item-name">
+        Schezwan Fried Rice – ₹169<br>
+        <small>Spicy rice tossed with veggies and a fiery Schezwan twist.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/spring roll.jpg" alt="Spring Rolls">
+      <span class="item-name">
+        Spring Rolls – ₹129<br>
+        <small>Crispy golden rolls filled with sautéed veggies and noodles.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Gobi-manchurian.jpg" alt="Gobi Manchurian">
+      <span class="item-name">
+        Gobi Manchurian – ₹149<br>
+        <small>Golden-fried cauliflower florets in spicy Indo-Chinese gravy.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Chinese Bhel.jpg" alt="Chinese Bhel">
+      <span class="item-name">
+        Chinese Bhel – ₹119<br>
+        <small>Crispy noodles mixed with veggies, chutneys, and Schezwan magic.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/paneer-fried-rice.jpg" alt="Paneer Fried Rice">
+      <span class="item-name">
+        Paneer Fried Rice – ₹169<br>
+        <small>Basmati rice stir-fried with paneer cubes and Chinese flavors.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section id="Biryani">
+  <h2>Biryani</h2>
+  <button class="toggle-btn" onclick="toggleSection('biryani-items')">🍛 View Items</button>
+
+  <div id="biryani-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/biryani.jpeg" alt="Hyderabadi Veg Biryani">
+      <span class="item-name">
+        Hyderabadi Veg Biryani – ₹299<br>
+        <small>Aromatic basmati rice cooked with fresh veggies, saffron, and royal spices in traditional Hyderabadi dum style.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/paneer-biryani.jpg" alt="Paneer Tikka Biryani">
+      <span class="item-name">
+        Paneer Tikka Biryani – ₹219<br>
+        <small>Grilled paneer chunks layered with masala rice and slow-cooked in rich tikka flavors.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/schezwan biryani.jpeg" alt="Schezwan Biryani">
+      <span class="item-name">
+        Schezwan Biryani – ₹189<br>
+        <small>An Indo-Chinese fusion of spicy Schezwan sauce and biryani rice.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="Meals">
+  <h2>Meals</h2>
+  <button class="toggle-btn" onclick="toggleSection('meal-items')">🍛 View Items</button>
+
+  <div id="meal-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/north indian thali.jpg" alt="North Indian Veg Thali">
+      <span class="item-name">
+        North Indian Veg Thali – ₹179<br>
+        <small>Roti, rice, dal, 2 curries, salad, pickle & dessert.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/SouthIndian.jpg" alt="South Indian Mini Meal">
+      <span class="item-name">
+        South Indian Mini Meal – ₹149<br>
+        <small>Rice, sambar, rasam, poriyal, papad & curd.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/paneer butter combo.webp" alt="Paneer Butter Masala Combo">
+      <span class="item-name">
+        Paneer Butter Masala Combo – ₹189<br>
+        <small>Paneer curry, 2 butter naan, salad.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/chole bhature.png" alt="Chole Bhature Meal">
+      <span class="item-name">
+        Chole Bhature Meal – ₹129<br>
+        <small>2 Bhature, chole, onion salad & pickle.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/rajma rice.jpg" alt="Rajma Rice Bowl">
+      <span class="item-name">
+        Rajma Rice Bowl – ₹109<br>
+        <small>Rajma curry served with steamed basmati rice.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/veg biryani.webp" alt="Veg Biryani with Raita">
+      <span class="item-name">
+       Vegetable Biryani – ₹149<br>
+        <small>Spicy layered rice with vegetables, mango chutney and raita.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Fried Rice & Manchurian .jpg" alt="Fried Rice & Manchurian">
+      <span class="item-name">
+        Fried Rice & Manchurian – ₹159<br>
+        <small>Indo-Chinese combo with veg Manchurian gravy.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Khichdi.jpg" alt="Khichdi & Curd Meal">
+      <span class="item-name">
+        Khichdi & Curd Meal – ₹99<br>
+        <small>Comforting moong dal khichdi served with curd.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/jeera rice.png" alt="Dal Tadka & Jeera Rice">
+      <span class="item-name">
+        Dal Tadka & Jeera Rice – ₹119<br>
+        <small>Classic yellow dal with cumin rice and salad.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/paratha.png" alt="Paratha Meal">
+      <span class="item-name">
+        Paratha Meal (4 parathas) – ₹129<br>
+        <small>Stuffed aloo/gobi parathas, curd, butter & pickle.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="Mocktails">
+  <h2>Mocktails</h2>
+  <button class="toggle-btn" onclick="toggleSection('mocktail-items')">🍹 View Items</button>
+
+  <div id="mocktail-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/mojito.jpg" alt="Virgin Mojito">
+      <span class="item-name">
+        Mojito – ₹99<br>
+        <small>Mint leaves, lemon, soda, and sugar – cool and refreshing.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Strawberry Cooler.jpeg" alt="Strawberry Cooler">
+      <span class="item-name">
+        Strawberry Cooler – ₹119<br>
+        <small>Crushed strawberries, lemon juice, mint, and soda.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/mango mania.png" alt="Mango Mania">
+      <span class="item-name">
+        Mango Mania – ₹129<br>
+        <small>Fresh mango puree, lime juice, and ice – summer favorite!</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Watermelon-Refresher.jpg" alt="Watermelon Refresher">
+      <span class="item-name">
+        Watermelon Refresher – ₹109<br>
+        <small>Chilled watermelon juice with mint and lemon zest.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/citrus burst.png" alt="Citrus Burst">
+      <span class="item-name">
+        Citrus Burst – ₹119<br>
+        <small>Orange, lime, and lemon blend with fizz.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <!-- CREAMY & TROPICAL MOCKTAILS Subsection -->
+    <h3>🔸 Creamy & Tropical Mocktails</h3>
+
+    <div class="item-row">
+      <img src="image/blue lagoon.png" alt="Blue Lagoon">
+      <span class="item-name">
+        Blue Lagoon – ₹129<br>
+        <small>Blue Curacao syrup, lemon soda, and lime.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/fixed fruit.png" alt="Fruit Punch">
+      <span class="item-name">
+        Fruit Punch – ₹149<br>
+        <small>Mixed fruit juices with a dash of cream and soda.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/lychee cooler.jpg" alt="Lychee Cooler">
+      <span class="item-name">
+        Lychee Cooler – ₹119<br>
+        <small>Lychee juice with mint and lemon fizz.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/kiwi delight.png" alt="Kiwi Delight">
+      <span class="item-name">
+        Kiwi Delight – ₹129<br>
+        <small>Crushed kiwi, lemon, sugar syrup, and ice.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <!-- FIZZY CLASSICS Subsection -->
+    <h3>🔸 Fizzy Classics</h3>
+
+    <div class="item-row">
+      <img src="image/Classic Lemonade.jpg" alt="Classic Lemonade">
+      <span class="item-name">
+        Classic Lemonade – ₹69<br>
+        <small>Fresh lime juice, sugar syrup, and soda.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/masala-mojito.jpg" alt="Masala Mojito">
+      <span class="item-name">
+        Masala Mojito – ₹99<br>
+        <small>Indian masala twist with mint, lemon, and soda.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/orange-Fizz.jpg" alt="Orange Fizz">
+      <span class="item-name">
+        Orange Fizz – ₹99<br>
+        <small>Orange juice and soda with a zesty kick.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="Desserts">
+  <h2>Desserts</h2>
+  <button class="toggle-btn" onclick="toggleSection('dessert-items')">🍨 View Items</button>
+
+  <div id="dessert-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/chocolava.jpg" alt="Chocolate Lava Cake">
+      <span class="item-name">
+        Chocolate Lava Cake – ₹99<br>
+        <small>Gooey molten chocolate center in a soft cake shell.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/brownie icecream.jpg" alt="Brownie with Ice Cream">
+      <span class="item-name">
+        Brownie with Ice Cream – ₹129<br>
+        <small>Warm fudge brownie served with vanilla ice cream.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/cookie with icecream.png" alt="Choco Chip Cookie Sundae">
+      <span class="item-name">
+        Choco Chip Cookie Sundae – ₹119<br>
+        <small>Fresh cookie base topped with ice cream and syrup.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Strawberry-Cheesecake.jpg" alt="Strawberry Cheesecake">
+      <span class="item-name">
+        Strawberry Cheesecake – ₹149<br>
+        <small>Creamy and fruity, with a biscuit base.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Gulab-Jamun.jpg" alt="Classic Gulab Jamun">
+      <span class="item-name">
+        Classic Gulab Jamun – ₹79<br>
+        <small>Deep-fried milk balls soaked in sugar syrup.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/rasmalai.png" alt="Rasmalai">
+      <span class="item-name">
+        Rasmalai – ₹99<br>
+        <small>Soft cottage cheese balls in saffron milk.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/choco fudge.png" alt="Choco Fudge Sundae">
+      <span class="item-name">
+        Choco Fudge Sundae – ₹139<br>
+        <small>Layers of brownie, fudge sauce, and chocolate ice cream.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/tiramisu.png" alt="Tiramisu">
+      <span class="item-name">
+        Tiramisu – ₹159<br>
+        <small>Italian-style coffee dessert with mascarpone layers.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/custard.png" alt="Fruit Custard">
+      <span class="item-name">
+        Fruit Custard – ₹89<br>
+        <small>Mixed fruits with creamy vanilla custard.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/caramel-custard.jpg" alt="Caramel Pudding">
+      <span class="item-name">
+        Caramel Pudding – ₹99<br>
+        <small>Silky smooth caramel-topped pudding.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/ice-cream.jpg" alt="Ice Cream Combo">
+      <span class="item-name">
+        Ice Cream Combo (3 scoops) – ₹79<br>
+        <small>3 flavors – strawberry, vanilla and mango.</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="Soft Drinks">
+  <h2>Soft Drinks</h2>
+  <button class="toggle-btn" onclick="toggleSection('softdrink-items')">🥤 View Items</button>
+
+  <div id="softdrink-items" class="items-container">
+
+    <div class="item-row">
+      <img src="image/coca cola.png" alt="Coca-Cola">
+      <span class="item-name">
+        Coca-Cola (300ml) – ₹40<br>
+        <small>Classic fizzy cola for a refreshing kick</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/pepsi.jpg" alt="Pepsi">
+      <span class="item-name">
+        Pepsi (300ml) – ₹40<br>
+        <small>Bold and bubbly cola taste</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/Sprite.jpg" alt="Sprite">
+      <span class="item-name">
+        Sprite (300ml) – ₹40<br>
+        <small>Crisp lemon-lime soda, cool and zesty</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/thumps up.png" alt="Thums Up">
+      <span class="item-name">
+        Thums Up (300ml) – ₹45<br>
+        <small>Strong, spicy cola flavor with an Indian twist</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/fanta.jpg" alt="Fanta">
+      <span class="item-name">
+        Fanta Orange (300ml) – ₹40<br>
+        <small>Fruity orange fizz, bright and cheerful</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/limca.png" alt="Limca">
+      <span class="item-name">
+        Limca (300ml) – ₹40<br>
+        <small>Tangy lemon soda with a salty edge</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/appyfizz.jpg" alt="Appy Fizz">
+      <span class="item-name">
+        Appy Fizz (250ml) – ₹45<br>
+        <small>Sparkling apple juice with a fizzy twist</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+    <div class="item-row">
+      <img src="image/maaza.png" alt="Maaza">
+      <span class="item-name">
+        Maaza (250ml) – ₹45<br>
+        <small>Sweet and smooth mango drink loved by all</small>
+      </span>
+      <div class="actions">
+        <button class="like">❤️</button>
+        <button class="cart">🛒</button>
+        <button class="order">Order</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <footer>
+    &copy; 2025 Food Express. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+  <!-- Order button ➜ save item to localStorage then go to order.html -->
+<script>
+document.querySelectorAll('.order').forEach(button => {
+  button.addEventListener('click', () => {
+    const row   = button.closest('.item-row');        // matches your markup
+    if (!row) return;
+
+    /* ----------- extract data from the row ----------- */
+    const fullText  = row.querySelector('.item-name').innerText.trim();
+    const name      = fullText.split('–')[0].split('₹')[0].trim();      // “Maaza (250ml)”
+    const price     = parseInt(fullText.match(/₹(\d+)/)?.[1] || 0, 10); // 45
+    const image     = row.querySelector('img')?.src || '';
+    const orderItem = { name, price, image, qty: 1 };
+
+    /* ----------- save & redirect ----------- */
+    localStorage.setItem('order', JSON.stringify([orderItem]));
+    window.location.href = 'order.html';
+  });
+});
+</script>
+
+
+
+
+<script>
+  // Image fullscreen view
+  document.querySelectorAll('.item-row img').forEach(img => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', function() {
+      const modal = document.createElement('div');
+      modal.className = 'image-modal';
+      modal.innerHTML = `
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" src="${this.src}" alt="${this.alt}">
+      `;
+      document.body.appendChild(modal);
+      modal.style.display = 'block';
+      
+      modal.querySelector('.close-btn').addEventListener('click', function() {
+        modal.style.display = 'none';
+        document.body.removeChild(modal);
+      });
+      
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.removeChild(modal);
+        }
+      });
+    });
+  });
+</script>
+ <script>
+  
+  
+  // Add to Cart
+const name = itemRow.querySelector('.item-name').innerText;
+const image = itemRow.querySelector('img').getAttribute('src');
+const desc = itemRow.querySelector('.item-name small')?.innerText || "";
+const priceText = itemRow.querySelector('.item-name').innerText.match(/₹(\d+)/);
+const price = priceText ? parseInt(priceText[1]) : 0;
+
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+cart.push({ name, image, desc, price, quantity: 1 });
+localStorage.setItem('cart', JSON.stringify(cart));
+
+const mainName = name.split(/[-:(]/)[0].trim();
+showPopup(`🛒 Added to cart: ${mainName}`);
+
+</script>
+<script>
+  // Like/Unlike with storage + popup
+  document.querySelectorAll('.like').forEach(button => {
+    const itemRow = button.closest('.item-row');
+    const name = itemRow.querySelector('.item-name').innerText.trim();
+    const image = itemRow.querySelector('img')?.getAttribute('src') || "";
+    const desc = itemRow.querySelector('small')?.innerText.trim() || "";
+    const priceText = itemRow.querySelector('.item-name').innerText.match(/₹(\d+)/);
+    const price = priceText ? parseInt(priceText[1]) : 0;
+
+    let likedItems = JSON.parse(localStorage.getItem('likedItems')) || [];
+
+    // Show heart if already liked
+    if (likedItems.some(item => item.name === name)) {
+      button.innerText = '💖';
+    } else {
+      button.innerText = '❤️';
+    }
+
+    button.addEventListener('click', () => {
+      likedItems = JSON.parse(localStorage.getItem('likedItems')) || [];
+      const index = likedItems.findIndex(item => item.name === name);
+
+      if (index === -1) {
+        // Not liked yet — like it
+        likedItems.push({ name, image, desc, price });
+        localStorage.setItem('likedItems', JSON.stringify(likedItems));
+        button.innerText = '💖';
+        showLikeNotification(`❤️ You liked "${name}"`, true);
+      } else {
+        // Already liked — unlike it
+        likedItems.splice(index, 1);
+        localStorage.setItem('likedItems', JSON.stringify(likedItems));
+        button.innerText = '❤️';
+        showLikeNotification(`💔 You unliked "${name}"`, false);
+      }
+    });
+  });
+
+  // Show popup notification
+  function showLikeNotification(message, isLiked) {
+    const notif = document.createElement('div');
+    notif.innerText = message;
+    notif.style.position = 'fixed';
+    notif.style.bottom = '20px';
+    notif.style.right = '20px';
+    notif.style.background = isLiked ? '#ffebf0' : '#e0f7fa';
+    notif.style.color = isLiked ? '#d6336c' : '#007b83';
+    notif.style.padding = '12px 20px';
+    notif.style.borderRadius = '8px';
+    notif.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+    notif.style.fontFamily = 'Poppins, sans-serif';
+    notif.style.fontWeight = '600';
+    notif.style.zIndex = '1000';
+    notif.style.transition = 'opacity 0.5s ease';
+    document.body.appendChild(notif);
+
+    setTimeout(() => {
+      notif.style.opacity = '0';
+      setTimeout(() => notif.remove(), 500);
+    }, 2000);
+  }
+</script>
+
+<script>
+  /* ─────────── CART ADD / REMOVE WITH LOCALSTORAGE + POP-UP ─────────── */
+  document.querySelectorAll('.cart').forEach(button => {
+    const itemRow = button.closest('.item-row');
+    const name  = itemRow.querySelector('.item-name').innerText.trim();
+    const image = itemRow.querySelector('img')?.getAttribute('src') || "";
+    const desc  = itemRow.querySelector('small')?.innerText.trim() || "";
+    const price = parseInt(
+      itemRow.querySelector('.item-name').innerText.match(/₹(\d+)/)?.[1] || 0,
+      10
+    );
+
+    /* Load saved cart once, then update the button state */
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    button.innerText = cart.some(item => item.name === name) ? '✅' : '🛒';
+
+    /* Toggle handler */
+    button.addEventListener('click', () => {
+      cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const index = cart.findIndex(item => item.name === name);
+
+      if (index === -1) {
+        /* ───── Add to cart ───── */
+        cart.push({ name, image, desc, price });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        button.innerText = '✅';
+        showCartNotification(`✅ Added “${name}” to cart`, true);
+      } else {
+        /* ───── Remove from cart ───── */
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        button.innerText = '🛒';
+        showCartNotification(`❌ Removed “${name}” from cart`, false);
+      }
+    });
+  });
+
+  /* ─────────── Fancy toast pop-up for cart actions ─────────── */
+  function showCartNotification(message, inCart) {
+    const notif = document.createElement('div');
+    notif.textContent = message;
+
+    /* Position & style */
+    Object.assign(notif.style, {
+      position: 'fixed',
+      bottom:  '20px',
+      right:   '20px',
+      background: inCart ? '#e8fff3' : '#fff5f5',
+      color:      inCart ? '#007b83' : '#d6336c',
+      padding:    '12px 20px',
+      borderRadius: '8px',
+      boxShadow:  '0 4px 10px rgba(0,0,0,0.1)',
+      fontFamily: 'Poppins, sans-serif',
+      fontWeight: '600',
+      zIndex:     '1000',
+      transition: 'opacity 0.5s ease'
+    });
+
+    document.body.appendChild(notif);
+
+    /* Fade-out after 2 s */
+    setTimeout(() => {
+      notif.style.opacity = '0';
+      setTimeout(() => notif.remove(), 500);
+    }, 2000);
+  }
+</script>
+</body>
+</html>  

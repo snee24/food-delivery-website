@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Liked Items | Food Express</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────── BASICS ─────────── */
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Poppins',sans-serif;
+      padding:40px 20px 120px;
+      background:#fffaf0;
+    }
+    h1{
+      text-align:center;
+      color:#e63946;
+      font-size:2rem;
+      margin-bottom:30px;
+    }
+    /* list container */
+    .liked-container{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      max-width:800px;
+      margin:auto;
+    }
+    .item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:#fff;
+      padding:15px 20px;
+      border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    }
+    .item img{
+      width:70px;height:70px;object-fit:cover;
+      border-radius:10px;margin-right:20px;
+    }
+    .item-info{flex:1}
+    .item-info h3{margin:0;font-size:1rem}
+    .item-info p{margin:4px 0 0;font-size:.85rem;color:#555}
+
+    /* buttons */
+    .item-actions{display:flex;gap:10px}
+    .item-actions button{
+      padding:8px 10px;font-size:.9rem;border:none;cursor:pointer;
+      border-radius:6px;transition:.3s;font-weight:600
+    }
+    .cart-btn{background:#ffe082}
+    .remove-btn{background:#ef9a9a}
+    .cart-btn:hover{background:#ffd54f}
+    .remove-btn:hover{background:#e57373}
+
+    /* bottom buttons */
+    .liked-buttons{
+      display:flex;justify-content:center;gap:20px;margin-top:35px
+    }
+    .liked-buttons button{
+      padding:12px 22px;font-size:1rem;font-weight:600;
+      border:none;border-radius:10px;cursor:pointer;transition:.3s
+    }
+    #addAllToCart{background:#06d6a0;color:#fff}
+    #removeAllLiked{background:#ff6f61;color:#fff}
+    #addAllToCart:hover{background:#05b68f}
+    #removeAllLiked:hover{background:#ff4b3e}
+
+    /* empty state */
+    .empty-msg{
+      text-align:center;background:#fff4e6;color:#d35400;
+      font-weight:600;padding:20px;border-radius:12px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.05);font-size:1.2rem;
+      margin-top:40px
+    }
+
+    /* toast */
+    .toast{
+      position:fixed;bottom:90px;right:20px;z-index:999;
+      background:#e0f7fa;color:#007b83;
+      padding:12px 22px;font-weight:600;border-radius:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.12);transition:opacity .5s ease
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❤️ Your Liked Items</h1>
+
+  <div class="liked-container" id="likedContainer"></div>
+
+  <div class="liked-buttons">
+    <button id="addAllToCart">🛒 Add All to Cart</button>
+    <button id="removeAllLiked">🗑️ Remove All</button>
+  </div>
+
+  <script>
+    /* ───── toast utility ───── */
+    function toast(msg,bg='#e0f7fa',color='#007b83'){
+      const t=document.createElement('div');
+      t.className='toast';t.textContent=msg;
+      t.style.background=bg;t.style.color=color;document.body.appendChild(t);
+      setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),500)},2000);
+    }
+
+    /* ───── render liked list ───── */
+    const liked=JSON.parse(localStorage.getItem('likedItems'))||[];
+    const container=document.getElementById('likedContainer');
+
+    function inCart(name){
+      const c=JSON.parse(localStorage.getItem('cart'))||[];
+      return c.some(it=>it.name===name);
+    }
+
+    function renderLikedItems(){
+      container.innerHTML='';
+      if(!liked.length){
+        container.innerHTML='<div class="empty-msg">You haven’t liked anything yet.</div>';
+        return;
+      }
+
+      liked.forEach((item,idx)=>{
+        const row=document.createElement('div');
+        row.className='item';
+        row.innerHTML=`
+          <img src="${item.image}" alt="${item.name}">
+          <div class="item-info">
+            <h3>${item.name}</h3>
+          </div>
+          <div class="item-actions">
+            <button class="cart-btn">${inCart(item.name)?'✅':'🛒'}</button>
+            <button class="remove-btn">🗑️</button>
+          </div>
+        `;
+
+        /* remove liked */
+        row.querySelector('.remove-btn').addEventListener('click',()=>{
+          liked.splice(idx,1);
+          localStorage.setItem('likedItems',JSON.stringify(liked));
+          renderLikedItems();
+          toast('❌ Removed from likes','#fff5f5','#d6336c');
+        });
+
+        /* add single to cart (now stays on this page) */
+        row.querySelector('.cart-btn').addEventListener('click',()=>{
+          const cart=JSON.parse(localStorage.getItem('cart'))||[];
+          if(!cart.some(it=>it.name===item.name)){
+            cart.push({...item,qty:1});
+            localStorage.setItem('cart',JSON.stringify(cart));
+          }
+          // Remove from liked
+          liked.splice(idx,1);
+          localStorage.setItem('likedItems',JSON.stringify(liked));
+          toast('✅ Moved to cart','#e8fff3','#007b83');
+          renderLikedItems();        // refresh list, stay on liked.html
+        });
+
+        container.appendChild(row);
+      });
+    }
+    renderLikedItems();
+
+    /* ───── add ALL ───── */
+    document.getElementById('addAllToCart').addEventListener('click',()=>{
+      if(!liked.length) return;
+      const cart=JSON.parse(localStorage.getItem('cart'))||[];
+      liked.forEach(it=>{
+        if(!cart.some(c=>c.name===it.name)){
+          cart.push({...it,qty:1});
+        }
+      });
+      localStorage.setItem('cart',JSON.stringify(cart));
+
+      // Clear liked items
+      localStorage.removeItem('likedItems');
+      liked.splice(0);
+      renderLikedItems();
+
+      toast('🛒 All moved to cart','#e8fff3','#007b83');
+    });
+
+    /* ───── remove ALL ───── */
+    document.getElementById('removeAllLiked').addEventListener('click',()=>{
+      if(!liked.length) return;
+      if(confirm('Remove ALL liked items?')){
+        localStorage.removeItem('likedItems');
+        liked.splice(0);
+        renderLikedItems();
+        toast('🗑️ All likes cleared','#fff5f5','#d6336c');
+      }
+    });
+  </script>
+</body>
+</html>

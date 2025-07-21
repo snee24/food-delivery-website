@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Express</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- Typing Effect Script -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+</head>
+<body>
+  <header>
+    <div class="logo">Food Express </div>
+   <nav>
+  <ul>
+    <li><a href="menu.html">🍽 Menu</a></li> 
+    <li><a href="cart.html">🛒Cart</a></li>
+    <li><a href="liked.html">❤️Liked</a></li>
+    <li><a href="about.html">ℹ️ About</a></li>
+    <li><a href="contact.html">📞Contact</a></li>
+  </ul>
+</nav>
+  </header>
+
+  <section class="hero" id="home">
+  <div class="hero-overlay">
+    <div class="hero-content">
+      <!-- SVG Illustration -->
+      <div class="hero-illustration">
+        <img src="image/fooddelivery.png" alt="Food Delivery" />
+      </div>
+
+      <!-- Typing Title -->
+      <h1 class="hero-title">
+        <span id="typed-text"></span><span class="cursor">|</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        <img src="image/food.png" alt="Chef Hat" class="icon" />
+        Tasty, fresh & fast from local kitchens.
+      </p>
+
+     <a href="menu.html" class="hero-button">Order Now</a>
+    </div>
+  </div>
+</section>
+
+
+  <section class="menu" id="menu">
+    <h2>Our Best Picks</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="image/pizza.jpeg" alt="Pizza" />
+        <h3>Margherita Pizza 
+<h5>Classic Italian with mozzarella and basil.</h5>
+</h3>
+        <p>₹249</p>
+      </div>
+      <div class="card">
+        <img src="image/paneertikkahome.jpeg" alt="Burger" />
+        <h3>Paneer Tikka Burger
+<h5>Spicy paneer tikka filling with mint chutney.</h5>
+</h3>
+        <p>₹199</p>
+      </div>
+      <div class="card">
+        <img src="image/noodles.jpeg" alt="Noodles" />
+        <h3>Hakka Noodles
+<h5>Stir-fried with veggies and soy sauce.</h5></h3>
+        <p>₹149</p>
+      </div>
+      <div class="card">
+        <img src="image/biryani.jpeg" alt="Biryani" />
+        <h3>Hyderabadi Biryani
+
+<h5>Spicy and flavorful with layered basmati rice.</h5>
+
+</h3>
+        <p>₹299</p>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="about" id="about">
+    <h2>About Food Express</h2>
+    <p>We serve freshly cooked food from top-rated kitchens and deliver it with love. Fast, hygienic, and delicious!</p>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2>Contact Details</h2>
+    <p>Email: contact@foodexpress.in</p>
+    <p>Phone: +91 98485xxxxx</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Food Express. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+  const typed = new Typed('#typed-text', {
+    strings: ['Savor Every Bite', 'Delicious Food Delivered', 'Fresh Meals, Fast!'],
+    typeSpeed: 90,
+    backSpeed: 60,
+    loop: true
+  });
+</script>
+
+</body>
+</html>

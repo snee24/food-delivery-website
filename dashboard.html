@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>My Orders | Food Express</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ---------- RESET & THEME ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#ff7143;
+  --orange-dark:#e55f33;
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --shadow:0 10px 30px rgba(0,0,0,.06);
+  --radius:18px;
+  --badge-placed:#17a2b8;
+  --badge-cancelled:#6c757d;
+  --badge-delivered:#28a745;
+}
+body{
+  font-family:Poppins,sans-serif;
+  background:var(--bg);
+  color:#333;
+  padding:40px 20px 60px;
+}
+
+/* ---------- HEADER ---------- */
+h1{
+  font-size:2.2rem;
+  font-weight:700;
+  text-align:center;
+  color:var(--orange);
+  margin-bottom:28px;
+}
+.back-btn{
+  display:flex;
+  justify-content:center;
+  margin-bottom:32px;
+}
+.back-btn button{
+  padding:14px 30px;
+  font-size:16px;
+  border:none;
+  border-radius:50px;
+  background:var(--orange);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .25s ease;
+  box-shadow:0 4px 12px rgba(255,113,67,.35);
+}
+.back-btn button:hover{background:var(--orange-dark)}
+
+/* ---------- WRAPPER ---------- */
+#ordersWrap{
+  max-width:800px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+
+/* ---------- ORDER CARD ---------- */
+.order-card{
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:26px 32px;
+  position:relative;
+  overflow:hidden;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.order-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,0,0,.08);
+}
+.order-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:linear-gradient(135deg,transparent 0%,rgba(255,113,67,.12) 100%);
+  opacity:0;
+  transition:opacity .25s ease;
+}
+.order-card:hover::before{opacity:1}
+
+/* header row */
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+.order-id{font-weight:700;font-size:1rem;color:#444}
+.order-date{font-size:.9rem;color:#777}
+
+/* status badge */
+.badge{
+  padding:6px 14px;
+  border-radius:50px;
+  font-size:.8rem;
+  font-weight:600;
+  color:#fff;
+}
+.Placed{background:var(--badge-placed)}
+.Cancelled{background:var(--badge-cancelled)}
+.Delivered{background:var(--badge-delivered)}
+
+/* item tags */
+.items{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+.tag{
+  background:#f0f1f5;
+  border-radius:50px;
+  padding:6px 14px;
+  font-size:.85rem;
+  white-space:nowrap;
+}
+
+/* total row */
+.total-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:600;
+  font-size:1rem;
+}
+
+/* ---------- EMPTY STATE ---------- */
+.empty{
+  text-align:center;
+  color:#777;
+  font-size:1.05rem;
+  margin-top:70px;
+}
+.empty a{
+  color:var(--orange-dark);
+  text-decoration:none;
+  font-weight:600;
+}
+.empty a:hover{text-decoration:underline}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.clear-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.clear-btn button {
+  background-color: #f44336;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.clear-btn button:hover {
+  background-color: #d32f2f;
+}
+
+</style>
+</head>
+<body>
+
+<h1>My Orders</h1>
+
+<div class="back-btn">
+  <button onclick="location.href='menu.html'">← Back to Menu</button>
+</div>
+
+<div class="clear-btn">
+  <button onclick="clearOrders()">🗑️ Clear All Orders</button>
+</div>
+
+<div id="ordersWrap"></div>
+
+<script>
+const wrap = document.getElementById('ordersWrap');
+
+function render() {
+  const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+  wrap.innerHTML = '';
+
+  if (history.length === 0) {
+    wrap.innerHTML = `
+      <p class="empty">
+        You haven’t placed any orders yet!!!!
+      </p>`;
+    return;
+  }
+
+  history.forEach(order => {
+    const chips = order.items.slice(0, 3)
+                    .map(i => `<span class="tag">${i.name} ×${i.qty || 1}</span>`)
+                    .join('');
+    const chipMore = order.items.length > 3
+                      ? `<span class="tag">+${order.items.length - 3} more</span>` : '';
+
+    const card = document.createElement('div');
+    card.className = 'order-card';
+    card.innerHTML = `
+      <div class="card-top">
+        <span class="order-id">Order #${order.id}</span>
+        <span class="order-date">${order.date}</span>
+      </div>
+
+      <div style="margin: 8px 0;">
+        <strong>Name:</strong> ${order.name || 'N/A'}<br/>
+        <strong>Contact:</strong> ${order.contact || 'N/A'}<br/>
+        <strong>Address:</strong> ${order.address || 'N/A'}
+        ${order.landmark ? `<br/><strong>Landmark:</strong> ${order.landmark}` : ''}
+      </div>
+
+      <div class="items">${chips}${chipMore}</div>
+
+      <div class="total-row">
+        <span>₹${order.total}</span>
+        <span class="badge ${order.status}">${order.status}</span>
+      </div>
+    `;
+
+    wrap.appendChild(card);
+  });
+}
+
+render();
+</script>
+<script>
+function clearOrders() {
+  if (confirm("Are you sure you want to clear all your orders?")) {
+    localStorage.removeItem('orderHistory');
+    render();  // Re-render the dashboard with empty message
+    alert("Order history cleared!");
+  }
+}
+</script>
+
+</body>
+</html>

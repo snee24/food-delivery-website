@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Food Express</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .fade-in {
+      animation: fadeIn 1.2s ease-in-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 1rem;
+      top: 38px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <section class="login-section">
+    <div class="login-box fade-in">
+      <h2>Login to Food Express</h2>
+      <form id="loginForm" novalidate>
+        <div class="input-wrapper">
+          <input type="email" id="email" placeholder="Email" required />
+        </div>
+        <div id="emailError" class="error"></div>
+
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="Password" required />
+          <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+        <div id="passwordError" class="error"></div>
+
+        <button type="submit">Login</button>
+        <p class="note">Don't have an account? <a href="#">Register here</a></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Show/Hide password
+    function togglePassword() {
+      const passwordInput = document.getElementById("password");
+      passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+    }
+
+    // Login validation
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const emailError = document.getElementById("emailError");
+      const passwordError = document.getElementById("passwordError");
+
+      let isValid = true;
+
+      emailError.textContent = "";
+      passwordError.textContent = "";
+
+      if (!email) {
+        emailError.textContent = "Please enter your email.";
+        isValid = false;
+      } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+        emailError.textContent = "Please enter a valid email.";
+        isValid = false;
+      }
+
+      if (!password) {
+        passwordError.textContent = "Please enter your password.";
+        isValid = false;
+      } else if (password.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters.";
+        isValid = false;
+      }
+
+      if (isValid) {
+        alert("Login successful! Redirecting to dashboard...");
+        window.location.href = "dashboard.html"; // Update this if needed
+      }
+    });
+  </script>
+</body>
+</html>
